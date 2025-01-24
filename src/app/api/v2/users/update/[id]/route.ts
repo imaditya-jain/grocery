@@ -32,7 +32,7 @@ export async function PUT(request: Request, { params }: Context) {
 
         if (!user) return NextResponse.json({ message: 'User not found.', success: false, data: {} }, { status: 404 })
 
-        return NextResponse.json({ message: "User updated successfully.", success: true, data: user }, { status: 200 });
+        return NextResponse.json({ message: "User updated successfully.", success: true, data: { user } }, { status: 200 });
 
     } catch (error) {
         if (error instanceof Error) {

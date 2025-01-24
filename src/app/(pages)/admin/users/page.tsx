@@ -9,16 +9,7 @@ import { toast } from 'react-toastify'
 import { clearState } from '@/lib/slices/user.slice'
 import { deleteUser, fetchUsers } from '@/lib/features/user.features'
 import { AdminManager, UserManager } from '@/sections'
-
-interface User {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    avatar: string;
-    role: "admin" | "user";
-}
+import { User } from '@/types/user'
 
 const Users = () => {
     const [admin, setAdmin] = useState<User[]>([])
@@ -58,8 +49,12 @@ const Users = () => {
             toast.error('User ID is required');
             return;
         }
-        dispatch(deleteUser({ id }));
+        dispatch(deleteUser(id));
     };
+
+    const handleEdit = (id: string) => {
+        router.push(`/admin/users/details/${id}`)
+    }
 
     return (
         <AdminLayout>
@@ -72,7 +67,7 @@ const Users = () => {
                     <CustomTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
                 </div>
                 <div>
-                    {selectedTab === 1 ? <AdminManager admin={admin} handleDelete={handleDelete} /> : <UserManager user={customer} handleDelete={handleDelete} />}
+                    {selectedTab === 1 ? <AdminManager admin={admin} handleDelete={handleDelete} handleEdit={handleEdit} /> : <UserManager user={customer} handleDelete={handleDelete} handleEdit={handleEdit} />}
                 </div>
             </div>
         </AdminLayout>

@@ -12,9 +12,12 @@ interface CustomTableProps {
     tHead: string[];
     tBody: RowData[];
     handleDelete: (id: string) => void;
+    action: boolean;
+    actionTypes: string[];
+    handleEdit: (id: string) => void;
 }
 
-const CustomTable: React.FC<CustomTableProps> = ({ tHead, tBody, handleDelete }) => {
+const CustomTable: React.FC<CustomTableProps> = ({ tHead, tBody, handleDelete, action, actionTypes, handleEdit }) => {
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full text-left" width="100%" border={1} rules="all">
@@ -38,14 +41,21 @@ const CustomTable: React.FC<CustomTableProps> = ({ tHead, tBody, handleDelete })
                                     )}
                                 </td>
                             ))}
-                            <td>
-                                <IconButton>
-                                    <Edit className='text-orange-400' />
-                                </IconButton>
-                                <IconButton onClick={() => handleDelete(row['id'])}>
-                                    <Delete className='text-red-500' />
-                                </IconButton>
-                            </td>
+                            {
+                                action && <td>
+                                    {
+                                        actionTypes && Array.isArray(actionTypes) && actionTypes.length > 0 && actionTypes.includes("edit") && <IconButton onClick={() => handleEdit(row['id'])}>
+                                            <Edit className='text-orange-400' />
+                                        </IconButton>
+                                    }
+
+                                    {
+                                        actionTypes && Array.isArray(actionTypes) && actionTypes.length > 0 && actionTypes.includes("delete") && <IconButton onClick={() => handleDelete(row['id'])}>
+                                            <Delete className='text-red-500' />
+                                        </IconButton>
+                                    }
+                                </td>
+                            }
                         </tr>
                     ))}
                 </tbody>

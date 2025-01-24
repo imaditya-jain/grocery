@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { CustomTable } from '@/components';
-
-interface User {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: 'admin' | 'user';
-    avatar: string;
-}
+import { User } from '@/types/user'
 
 interface UserManagerProps {
     user: User[];
     handleDelete: (id: string) => void;
+    handleEdit: (id: string) => void;
 }
 
-const UserManager: React.FC<UserManagerProps> = ({ user, handleDelete }) => {
+const UserManager: React.FC<UserManagerProps> = ({ user, handleDelete, handleEdit }) => {
     const tableHead = ['Sr', 'Avatar', 'Name', 'Email', 'Role'];
     const [tableBody, setTableBody] = useState<{
         _id: string,
@@ -45,7 +38,7 @@ const UserManager: React.FC<UserManagerProps> = ({ user, handleDelete }) => {
     return (
         <section>
             <div className="container p-4 bg-white">
-                <CustomTable tHead={tableHead} tBody={tableBody} handleDelete={handleDelete} />
+                <CustomTable tHead={tableHead} tBody={tableBody} handleDelete={handleDelete} action={true} actionTypes={["delete"]} handleEdit={handleEdit} />
             </div>
         </section>
     );

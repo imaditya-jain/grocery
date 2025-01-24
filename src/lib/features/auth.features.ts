@@ -1,15 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-
-interface User {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    avatar: string;
-    role: 'admin' | 'user';
-}
+import { User } from '@/types/user'
 
 interface Response {
     status: number;

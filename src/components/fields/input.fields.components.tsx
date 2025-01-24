@@ -25,27 +25,29 @@ const InputFields = <T extends Record<string, unknown>>({
     const [show, setShow] = useState(false);
 
     return (
-        <TextField
-            type={type === "password" ? (show ? "text" : "password") : type}
-            label={label}
-            placeholder={placeholder}
-            fullWidth
-            error={!!errors[name]}
-            helperText={errors[name]?.message as string}
-            {...register(name)}
-            slotProps={{
-                input: {
-                    endAdornment: type === "password" && (
-                        <IconButton
-                            onClick={() => setShow(!show)}
-                            aria-label={show ? "Hide password" : "Show password"}
-                        >
-                            {show ? <IoMdEyeOff /> : <IoMdEye />}
-                        </IconButton>
-                    ),
-                },
-            }}
-        />
+        <div className="mb-4">
+            <TextField
+                type={type === "password" ? (show ? "text" : "password") : type}
+                label={label}
+                placeholder={placeholder}
+                fullWidth
+                error={!!errors[name]}
+                helperText={errors[name]?.message as string}
+                {...register(name)}
+                slotProps={{
+                    input: {
+                        endAdornment: type === "password" && (
+                            <IconButton
+                                onClick={() => setShow(!show)}
+                                aria-label={show ? "Hide password" : "Show password"}
+                            >
+                                {show ? <IoMdEyeOff /> : <IoMdEye />}
+                            </IconButton>
+                        ),
+                    },
+                }}
+            />
+        </div>
     );
 };
 

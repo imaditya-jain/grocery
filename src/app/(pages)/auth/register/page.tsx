@@ -34,7 +34,7 @@ const Register = () => {
                 <div className='flex flex-col gap-6'>
                     <h2 className='text-[20px] md:text-[24px] font-[600] uppercase text-center'>Create New Account</h2>
                     <div>
-                        <RegistrationForm page="/auth/register" />
+                        <RegistrationForm page="/auth/register" isEdit={false} user={null} />
                     </div>
                     <div>
                         <p className='font-[500] text-center'>Already have an account? <Link href='/auth/login/' legacyBehavior><a className="hover:text-[var(--color-primary)]">Log in</a></Link></p>

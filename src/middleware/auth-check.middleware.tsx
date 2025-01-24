@@ -14,6 +14,10 @@ const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
     const hasCheckedAuth = React.useRef(false);
 
     useEffect(() => {
+        dispatch(authCheckHandler({}))
+    }, [dispatch])
+
+    useEffect(() => {
         if (!hasCheckedAuth.current && !loading) {
             hasCheckedAuth.current = true
             dispatch(authCheckHandler({}))
@@ -29,6 +33,8 @@ const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
 
     useEffect(() => {
         if (loading) return;
+
+        if (pathname === "/") return;
 
         if (!loading && isAuthenticated) {
             router.push(pathname)

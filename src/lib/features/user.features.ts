@@ -1,15 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-
-interface User {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    avatar: string;
-    role: 'admin' | 'user';
-}
+import { User } from '@/types/user'
 
 interface Response {
     status: number;
@@ -52,11 +43,10 @@ export const fetchUsers = createAsyncThunk<Response, Record<string, unknown>, { 
 }
 );
 
-export const fetchUser = createAsyncThunk<Response, Record<string, unknown>, { rejectValue: Error }>('/users/fetch-user', async (id, { rejectWithValue }) => {
+export const fetchUser = createAsyncThunk<Response, string, { rejectValue: Error }>('/users/fetch-user', async (id, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`/api/v2/users${id}`)
-        return response.data
-
+        const response = await axios.get(`/api/v2/users/${id}`);
+        return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
             return rejectWithValue({
@@ -73,34 +63,39 @@ export const fetchUser = createAsyncThunk<Response, Record<string, unknown>, { r
             data: null,
         });
     }
-}
-);
+});
 
-export const updateUser = createAsyncThunk<Response, Record<string, unknown>, { rejectValue: Error }>('/users/update-user', async (data, { rejectWithValue }) => {
-    try {
-        const response = await axios.get('/api/v2/users/update', data)
-        return response.data
 
-    } catch (error) {
-        if (error instanceof AxiosError) {
+export const updateUser = createAsyncThunk<
+    Response,
+    { id: string; data: Record<string, unknown> },
+    { rejectValue: Error }
+>(
+    "/users/update-user",
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(`/api/v2/users/update/${id}`, data);
+            return response.data;
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                return rejectWithValue({
+                    status: error.response?.status || 500,
+                    success: false,
+                    message: error.response?.data?.message || "Failed to update user.",
+                    data: error.response?.data || null,
+                });
+            }
             return rejectWithValue({
-                status: error.response?.status || 500,
+                status: 500,
                 success: false,
-                message: error.response?.data?.message || "Failed to update user.",
-                data: error.response?.data || null,
+                message: "Something went wrong.",
+                data: null,
             });
         }
-        return rejectWithValue({
-            status: 500,
-            success: false,
-            message: "Something went wrong.",
-            data: null,
-        });
     }
-}
 );
 
-export const deleteUser = createAsyncThunk<Response, Record<string, unknown>, { rejectValue: Error }>('/users/delete-user', async (id, { rejectWithValue }) => {
+export const deleteUser = createAsyncThunk<Response, string, { rejectValue: Error }>('/users/delete-user', async (id, { rejectWithValue }) => {
     try {
         const response = await axios.delete(`/api/v2/users/delete/${id}`)
         return response.data

@@ -38,7 +38,7 @@ const CreateUser = () => {
                                 <div>
                                     <h2 className='font-[600] text-[20px] md:text-[24px]'>Add New User</h2>
                                 </div>
-                                <RegistrationForm page='/admin/users/create' />
+                                <RegistrationForm page='/admin/users/create' isEdit={false} user={null} />
                             </div>
                         </Grid2>
                     </Grid2>
