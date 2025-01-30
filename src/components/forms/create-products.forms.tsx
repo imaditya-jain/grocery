@@ -195,6 +195,11 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
             <TextField label="Product Name" fullWidth {...register("name")} error={!!errors.name} helperText={errors.name?.message} />
             <TextField label="Price" type="number" fullWidth {...register("price")} error={!!errors.price} helperText={errors.price?.message} />
             <TextField label="Inventory" type="number" fullWidth {...register("inventory")} error={!!errors.inventory} helperText={errors.inventory?.message} />
+
+            {/* Restored Meta Title and Meta Description Fields */}
+            <TextField label="Meta Title" fullWidth {...register("seo.metaTitle")} error={!!errors.seo?.metaTitle} helperText={errors.seo?.metaTitle?.message} />
+            <TextField label="Meta Description" fullWidth {...register("seo.metaDescription")} error={!!errors.seo?.metaDescription} helperText={errors.seo?.metaDescription?.message} />
+
             <RTE<ProductFormValues>
                 name="description"
                 control={control}
