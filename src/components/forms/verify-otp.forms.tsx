@@ -45,6 +45,8 @@ const VerifyOTP: React.FC<VerifyOTPProps> = ({ email }) => {
             label: "OTP",
             fullWidth: true,
             placeholder: "",
+            multiline: false,
+            rows: 1
         },
     ];
 
@@ -105,6 +107,8 @@ const VerifyOTP: React.FC<VerifyOTPProps> = ({ email }) => {
                         errors={errors}
                         register={register}
                         label={field.label}
+                        multline={field.multiline}
+                        rows={field.rows}
                     />
                 ))}
                 <div>

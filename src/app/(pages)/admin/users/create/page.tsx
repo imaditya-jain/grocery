@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks'
 import { toast } from "react-toastify"
 import { clearState } from "@/lib/slices/auth.slice"
-
 import { Container, Grid2 } from '@mui/material';
 
 const CreateUser = () => {

@@ -127,10 +127,32 @@ body {
 table,
 th,
 td {
-    border: 1px solid rgb(197, 197, 197);
+    border: 1px solid #c5c5c5;
 }
 
 table th,
 table td {
     padding: 0.5rem;
+}
+
+#hero .container {
+    height: 50vh;
+    border: 1px solid red;
+}
+
+.post-content div {
+    margin-bottom: 1.5rem;
+}
+
+.post-content div p {
+    margin-bottom: 0.675rem;
+    font-size: 1rem;
+}
+
+.post-content div img {
+    margin: 1rem 0;
+}
+
+.post-content div ul li {
+    margin-bottom: 0.5rem;
 }

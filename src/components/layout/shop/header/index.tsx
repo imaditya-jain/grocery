@@ -6,7 +6,7 @@ import Navigation from './navigation.header'
 const Header = () => {
     return (
         <>
-            <header className="bg-white fixed top-0 left-0 right-0">
+            <header className="bg-white">
                 <Topbar />
                 <TopHeader />
                 <Navigation />

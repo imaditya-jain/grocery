@@ -46,6 +46,8 @@ const ResetPasswordForm: React.FC<{ email: string }> = ({ email }) => {
             label: "OTP",
             fullWidth: true,
             placeholder: "",
+            multiline: false,
+            rows: 1
         },
         {
             id: "rf-2",
@@ -54,6 +56,8 @@ const ResetPasswordForm: React.FC<{ email: string }> = ({ email }) => {
             label: "Password",
             fullWidth: true,
             placeholder: "********",
+            multiline: false,
+            rows: 1
         },
     ];
 
@@ -98,6 +102,8 @@ const ResetPasswordForm: React.FC<{ email: string }> = ({ email }) => {
                             placeholder={field.placeholder}
                             errors={errors}
                             register={register}
+                            multline={field.multiline}
+                            rows={field.rows}
                         />
                     ))
                 }

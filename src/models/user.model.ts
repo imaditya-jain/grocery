@@ -9,14 +9,16 @@ enum Role {
 }
 
 export interface IUser extends Document {
-    _id: Types.ObjectId,
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    avatar: string,
-    role: Role,
-    password: string,
+    _id: Types.ObjectId;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    avatar: string;
+    role: Role;
+    password: string;
+    wishlist: mongoose.Types.ObjectId[] | null;
+    orders: mongoose.Types.ObjectId[] | null;
     otp: string | null;
     refreshToken: string | null;
     comparePassword(enteredPassword: string): Promise<boolean>;
@@ -84,6 +86,18 @@ const userSchema = new Schema<IUser>({
                 'Password must be 8-16 characters long, include at least one letter, one number, and one special character (@$!%*?&#).',
         },
     },
+    wishlist: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+        },
+    ],
+    orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Order',
+        },
+    ],
     otp: {
         type: String,
         default: null
@@ -100,6 +114,14 @@ userSchema.pre('save', async function (next) {
     }
     next()
 })
+
+userSchema.pre('save', function (next) {
+    if (this.role === 'admin') {
+        this.wishlist = null;
+        this.orders = null;
+    }
+    next();
+});
 
 userSchema.methods.comparePassword = async function (enteredPassword: string): Promise<boolean> {
     return await bcrypt.compare(enteredPassword, this.password)

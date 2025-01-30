@@ -10,7 +10,7 @@ import { updateUser } from "@/lib/features/user.features";
 import storage from "@/config/firebase.config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Path } from "react-hook-form";
-import { User } from "@/types/user";
+import { User } from "@/types/user.types";
 
 interface RegistrationFormProps {
     page: string;
@@ -98,16 +98,18 @@ const RegistrationForm = ({ page, isEdit, user }: RegistrationFormProps) => {
     });
 
     const fields = [
-        { id: "rf-1", type: "text" as const, name: "firstName", label: "Firstname", placeholder: "John" },
-        { id: "rf-2", type: "text" as const, name: "lastName", label: "Lastname", placeholder: "Doe" },
-        { id: "rf-3", type: "email" as const, name: "email", label: "Email", placeholder: "john@example.com" },
-        { id: "rf-4", type: "tel" as const, name: "phone", label: "Phone", placeholder: "9420212223" },
-        { id: "rf-7", type: "file" as const, name: "avatar", label: "Avatar", placeholder: "" },
+        {
+            id: "rf-1", type: "text" as const, name: "firstName", label: "Firstname", placeholder: "John", multiline: false, rows: 1
+        },
+        { id: "rf-2", type: "text" as const, name: "lastName", label: "Lastname", placeholder: "Doe", multiline: false, rows: 1 },
+        { id: "rf-3", type: "email" as const, name: "email", label: "Email", placeholder: "john@example.com", multiline: false, rows: 1 },
+        { id: "rf-4", type: "tel" as const, name: "phone", label: "Phone", placeholder: "9420212223", multiline: false, rows: 1 },
+        { id: "rf-7", type: "file" as const, name: "avatar", label: "Avatar", placeholder: "", multiline: false, rows: 1 },
         ...(isEdit
             ? []
             : [
-                { id: "rf-5", type: "password" as const, name: "password", label: "Password", placeholder: "********" },
-                { id: "rf-6", type: "password" as const, name: "confirmPassword", label: "Confirm Password", placeholder: "********" },
+                { id: "rf-5", type: "password" as const, name: "password", label: "Password", placeholder: "********", multiline: false, rows: 1 },
+                { id: "rf-6", type: "password" as const, name: "confirmPassword", label: "Confirm Password", placeholder: "********", multiline: false, rows: 1 },
             ]),
     ];
 
@@ -153,6 +155,8 @@ const RegistrationForm = ({ page, isEdit, user }: RegistrationFormProps) => {
                         placeholder={field.placeholder}
                         errors={errors}
                         register={register}
+                        multline={field.multiline}
+                        rows={field.rows}
                     />
                 ))}
             </div>

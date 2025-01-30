@@ -52,6 +52,8 @@ const Login = () => {
             name: "email" as const,
             label: "Email",
             placeholder: "john@example.com",
+            multiline: false,
+            rows: 1
         },
         {
             id: "rf-5",
@@ -59,6 +61,8 @@ const Login = () => {
             name: "password" as const,
             label: "Password",
             placeholder: "********",
+            multiline: false,
+            rows: 1
         },
     ];
 
@@ -97,6 +101,8 @@ const Login = () => {
                         placeholder={field.placeholder}
                         errors={errors}
                         register={register}
+                        multline={field.multiline}
+                        rows={field.rows}
                     />
                 ))}
                 <div>

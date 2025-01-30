@@ -12,6 +12,8 @@ interface InputFieldsProps<T extends Record<string, unknown>> {
     label: string;
     register: UseFormRegister<T>;
     errors: FieldErrors<T>;
+    multline: boolean;
+    rows: number,
 }
 
 const InputFields = <T extends Record<string, unknown>>({
@@ -21,12 +23,16 @@ const InputFields = <T extends Record<string, unknown>>({
     register,
     errors,
     label,
+    multline,
+    rows
 }: InputFieldsProps<T>) => {
     const [show, setShow] = useState(false);
 
     return (
         <div className="mb-4">
             <TextField
+                multiline={multline}
+                rows={rows}
                 type={type === "password" ? (show ? "text" : "password") : type}
                 label={label}
                 placeholder={placeholder}

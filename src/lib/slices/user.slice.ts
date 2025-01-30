@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { deleteUser, fetchUser, fetchUsers, updateUser } from "../features/user.features";
-import { User } from '@/types/user'
+import { User } from '@/types/user.types'
 
 interface ApiResponse<T = unknown> {
     success: boolean;

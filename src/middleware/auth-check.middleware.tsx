@@ -14,8 +14,10 @@ const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
     const hasCheckedAuth = React.useRef(false);
 
     useEffect(() => {
-        dispatch(authCheckHandler({}))
-    }, [dispatch])
+        if (pathname === "/" || pathname.startsWith('/blogs') || pathname === '/auth/register') {
+            dispatch(authCheckHandler({}))
+        }
+    }, [dispatch, pathname])
 
     useEffect(() => {
         if (!hasCheckedAuth.current && !loading) {
@@ -34,7 +36,7 @@ const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
     useEffect(() => {
         if (loading) return;
 
-        if (pathname === "/") return;
+        if (pathname === "/" || pathname.startsWith('/blogs') || pathname === '/auth/register') return;
 
         if (!loading && isAuthenticated) {
             router.push(pathname)

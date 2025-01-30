@@ -40,6 +40,8 @@ const ForgotPasswordForm = () => {
             label: 'Email',
             fullWidth: true,
             placeholder: 'john@example.com',
+            multiline: false,
+            rows: 1
         },
     ];
 
@@ -77,6 +79,8 @@ const ForgotPasswordForm = () => {
                     placeholder={field.placeholder}
                     errors={errors}
                     register={register}
+                    multline={field.multiline}
+                    rows={field.rows}
                 />
             ))}
             <button type="submit">Reset Password</button>

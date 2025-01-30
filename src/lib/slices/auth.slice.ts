@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authCheckHandler, forgotPasswordHandler, loginHandler, logoutHandler, refreshTokenHandler, registerHandler, resetPasswordHandler, verifyOTPHandler } from "../features/auth.features";
-import { User } from '@/types/user'
+import { User } from '@/types/user.types'
 
 interface ApiResponse<T = unknown> {
     success: boolean;

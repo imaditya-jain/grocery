@@ -46,7 +46,7 @@ const UserDetails = () => {
                             {
                                 user && Object.keys(user).length > 0 && !loading && !error ? <div className='flex flex-col gap-6 py-4'>
                                     <div>
-                                        <h2 className='font-[600] text-[20px] md:text-[24px]'>Add New User</h2>
+                                        <h2 className='font-[600] text-[20px] md:text-[24px]'>Edit User</h2>
                                     </div>
                                     <RegistrationForm page='/admin/users/create' user={user} isEdit={true} />
                                 </div> : <p>We are fetching data. Loading...</p>

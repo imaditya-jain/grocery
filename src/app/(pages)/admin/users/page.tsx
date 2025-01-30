@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import { clearState } from '@/lib/slices/user.slice'
 import { deleteUser, fetchUsers } from '@/lib/features/user.features'
 import { AdminManager, UserManager } from '@/sections'
-import { User } from '@/types/user'
+import { User } from '@/types/user.types'
 
 const Users = () => {
     const [admin, setAdmin] = useState<User[]>([])
@@ -58,18 +58,20 @@ const Users = () => {
 
     return (
         <AdminLayout>
-            <div className='flex flex-col gap-4 p-0 md:p-4 '>
-                <div className='flex justify-between items-center'>
-                    <h2 className='font-[600] text-[20px] md:text-[24px]'>Users</h2>
-                    <button className='dark-outline-btn' onClick={() => router.push('/admin/users/create')}>Add User</button>
+            <section>
+                <div className='flex flex-col gap-4 p-0 md:p-4 '>
+                    <div className='flex justify-between items-center'>
+                        <h2 className='font-[600] text-[20px] md:text-[24px]'>Users</h2>
+                        <button className='dark-outline-btn' onClick={() => router.push('/admin/users/create')}>Add User</button>
+                    </div>
+                    <div>
+                        <CustomTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
+                    </div>
+                    <div>
+                        {selectedTab === 1 ? <AdminManager admin={admin} handleDelete={handleDelete} handleEdit={handleEdit} /> : <UserManager user={customer} handleDelete={handleDelete} handleEdit={handleEdit} />}
+                    </div>
                 </div>
-                <div>
-                    <CustomTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
-                </div>
-                <div>
-                    {selectedTab === 1 ? <AdminManager admin={admin} handleDelete={handleDelete} handleEdit={handleEdit} /> : <UserManager user={customer} handleDelete={handleDelete} handleEdit={handleEdit} />}
-                </div>
-            </div>
+            </section>
         </AdminLayout>
     )
 }
