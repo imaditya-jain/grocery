@@ -1,4 +1,3 @@
-import { default } from '../../tailwind.config';
 // common
 export { default as SEOHead } from './common/head.common'
 
