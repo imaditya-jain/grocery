@@ -6,7 +6,7 @@ const ShopLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Header />
-            <main className='bg-[#f5f0f0]' style={{ minHeight: "76.6vh" }}>
+            <main style={{ minHeight: "76.6vh" }}>
                 {children}
             </main>
             <Footer />

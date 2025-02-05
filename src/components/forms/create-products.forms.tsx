@@ -88,7 +88,8 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                     })
                     .optional(),
             })
-        ),
+        )
+
     });
 
 
@@ -117,15 +118,20 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
 
     useEffect(() => {
         if (product) {
-            reset({
-                ...product,
-                variants: product.variant.map((variant: Variant) => ({
+            const mappedVariants = product?.variants && Array.isArray(product?.variants)
+                ? product.variants.map((variant: Variant) => ({
                     ...variant,
                     attributes: Object.entries(variant.attributes)
                         .map(([key, value]) => `${key}:${value}`)
                         .join(", "),
-                    image: variant.image ? (typeof variant.image === "string" ? variant.image : undefined) : undefined, // If it's a string, use it directly as the URL
-                })) || [],
+                }))
+                : [];
+
+            console.log(mappedVariants)
+
+            reset({
+                ...product,
+                variants: mappedVariants,
             });
 
             if (product.media?.image) {
@@ -168,7 +174,6 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
         const media = { image: imgUrl };
         const newData = { ...formattedData, media };
 
-        // If editing an existing product, update; otherwise, create a new product
         if (isEdit && product && product._id) {
             dispatch(updateProduct({ id: product._id.toString(), data: newData }));
         } else {
@@ -190,13 +195,14 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
         }
     }, [stateError, message, loading, router]);
 
+    console.log(product)
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <TextField label="Product Name" fullWidth {...register("name")} error={!!errors.name} helperText={errors.name?.message} />
             <TextField label="Price" type="number" fullWidth {...register("price")} error={!!errors.price} helperText={errors.price?.message} />
             <TextField label="Inventory" type="number" fullWidth {...register("inventory")} error={!!errors.inventory} helperText={errors.inventory?.message} />
 
-            {/* Restored Meta Title and Meta Description Fields */}
             <TextField label="Meta Title" fullWidth {...register("seo.metaTitle")} error={!!errors.seo?.metaTitle} helperText={errors.seo?.metaTitle?.message} />
             <TextField label="Meta Description" fullWidth {...register("seo.metaDescription")} error={!!errors.seo?.metaDescription} helperText={errors.seo?.metaDescription?.message} />
 
@@ -217,7 +223,8 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                         <TextField
                             label="Attributes (color:red, size:M)"
                             fullWidth
-                            {...register(`variants.${index}.attributes`)}
+                            defaultValue={field.attributes}
+                            {...register(`variants.${index}.attributes` as const)}
                             error={!!errors.variants?.[index]?.attributes}
                             helperText={errors.variants?.[index]?.attributes?.message}
                         />
@@ -225,7 +232,8 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                             label="Stock"
                             type="number"
                             fullWidth
-                            {...register(`variants.${index}.stock`)}
+                            defaultValue={field.stock}
+                            {...register(`variants.${index}.stock` as const)}
                             error={!!errors.variants?.[index]?.stock}
                             helperText={errors.variants?.[index]?.stock?.message}
                         />
@@ -233,11 +241,11 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                             label="Price"
                             type="number"
                             fullWidth
-                            {...register(`variants.${index}.price`)}
+                            defaultValue={field.price}
+                            {...register(`variants.${index}.price` as const)}
                             error={!!errors.variants?.[index]?.price}
                             helperText={errors.variants?.[index]?.price?.message}
                         />
-                        <input type="file" {...register(`variants.${index}.image`)} />
                         <IconButton onClick={() => remove(index)}>
                             <AiOutlineDelete className="text-red-500" />
                         </IconButton>
@@ -247,7 +255,10 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                     <AiOutlinePlus className="mr-2" /> Add Variant
                 </Button>
             </div>
-            <button type="submit" className="w-full bg-blue-600 p-3 text-white font-bold rounded-md">
+            <button
+                type="submit"
+                className="w-full bg-[var(--color-primary)] p-3 text-white font-[600] rounded-md"
+            >
                 {isEdit ? "Update" : "Register"}
             </button>
         </form>

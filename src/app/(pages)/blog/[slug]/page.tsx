@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { BlogLayout, ShopLayout, SEOHead } from '@/components'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks'
-import { SingleBlogHero } from '@/sections'
 import { fetchPostHandler } from '@/lib/features/post.features'
 import { toast } from 'react-toastify'
 
@@ -36,8 +35,7 @@ const SingleBlog = () => {
                 {
                     post && <>
                         <SEOHead title={post?.title || "Loading..."} description={post?.seo?.metaDescription || "Read our latest blog post"} />
-                        <SingleBlogHero featuredImage={post?.media?.featuredImage} title={post?.title} excerpt={post?.excerpt} />
-                        <BlogLayout content={post.content} />
+                        <BlogLayout content={post.content} featuredImage={post?.media?.featuredImage} title={post?.title} />
                     </>
                 }
             </ShopLayout>

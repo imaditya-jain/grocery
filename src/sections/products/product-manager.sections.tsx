@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from 'react'
 import { Product } from '@/types/product.types';
 import { CustomTable } from '@/components';

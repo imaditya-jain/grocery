@@ -15,7 +15,6 @@ export interface Variant {
     attributes: string;
     stock: number;
     price: number;
-    image?: FileList | string; // Allow both FileList and string
 }
 
 export interface Product {
@@ -25,7 +24,7 @@ export interface Product {
     description: string;
     media: Media;
     seo: Seo;
-    variant: Variant[];
+    variants: Variant[];
     createdAt: Date;
     updatedAt: Date;
 }

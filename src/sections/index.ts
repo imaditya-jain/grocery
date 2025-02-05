@@ -9,6 +9,10 @@ export { default as UserManager } from './users/userManager'
 export { default as PublishedPostsSec } from './posts/published-posts.sections'
 export { default as DraftPostsSec } from './posts/draft-posts.sections'
 export { default as SingleBlogHero } from './posts/single-blog-hero.section'
+export { default as PostArchiveSection } from './posts/posts-archive.section'
 
 // products
 export { default as ProductManagerSec } from './products/product-manager.sections'
+
+// Home
+export { default as HomeBanner } from './home/banner'

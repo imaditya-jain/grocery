@@ -36,7 +36,7 @@ const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
     useEffect(() => {
         if (loading) return;
 
-        if (pathname === "/" || pathname.startsWith('/blogs') || pathname === '/auth/register') return;
+        if (pathname === "/" || pathname.startsWith('/blog') || pathname === '/auth/register') return;
 
         if (!loading && isAuthenticated) {
             router.push(pathname)

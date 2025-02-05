@@ -1,3 +1,4 @@
+import { default } from '../../tailwind.config';
 // common
 export { default as SEOHead } from './common/head.common'
 
@@ -37,3 +38,4 @@ export { default as InputFields } from './fields/input.fields.components'
 
 // cards
 export { default as BlogCard } from './cards/blog.cards'
+export { default as IconBox } from './cards/icon-box.cards'
