@@ -16,6 +16,8 @@ const sendOTP = async (id: string) => {
 
         const OTP = generateOTP()
 
+        console.log(OTP)
+
         const mailOptions = {
             from: process.env.USER_EMAIL,
             to: user?.email,
