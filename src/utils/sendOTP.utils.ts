@@ -30,7 +30,7 @@ const sendOTP = async (id: string) => {
         await user.save({ validateModifiedOnly: true })
 
         transporter.sendMail(mailOptions)
-        return { status: 200, message: "OTP is sent on yout mail.", success: true, data: {} }
+        return { status: 200, message: "OTP is sent on yout mail.", success: true, data: { OTP } }
 
     } catch (error) {
         if (error instanceof Error) {
