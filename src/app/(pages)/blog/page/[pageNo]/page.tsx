@@ -2,11 +2,10 @@
 
 import React, { useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { ShopLayout } from '@/components'
+import { BlogLayout, ShopLayout } from '@/components'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { fetchPostsHandler } from '@/lib/features/post.features'
 import { toast } from 'react-toastify'
-import { PostArchiveSection } from '@/sections'
 
 const Blog = () => {
     const dispatch = useAppDispatch()
@@ -30,7 +29,7 @@ const Blog = () => {
     return (
         <>
             <ShopLayout>
-                <PostArchiveSection posts={posts} limit={10} />
+                <BlogLayout page='archive' posts={posts} limit={10} title='' content='' featuredImage='' />
             </ShopLayout>
         </>
     )

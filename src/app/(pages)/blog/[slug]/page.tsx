@@ -35,7 +35,7 @@ const SingleBlog = () => {
                 {
                     post && <>
                         <SEOHead title={post?.title || "Loading..."} description={post?.seo?.metaDescription || "Read our latest blog post"} />
-                        <BlogLayout content={post.content} featuredImage={post?.media?.featuredImage} title={post?.title} />
+                        <BlogLayout page='detailed' posts={[]} limit={0} content={post.content} featuredImage={post?.media?.featuredImage} title={post?.title} />
                     </>
                 }
             </ShopLayout>

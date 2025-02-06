@@ -3,7 +3,7 @@ import Post from "@/models/posts.model"
 import { NextResponse } from "next/server"
 
 interface Context {
-    params: { pageNo: string }
+    params: Promise<{ pageNo: string }>
 }
 
 export async function GET(request: Request, { params }: Context) {
@@ -14,9 +14,9 @@ export async function GET(request: Request, { params }: Context) {
             return NextResponse.json({ message: "Method is not allowed.", success: false, data: {} }, { status: 405 })
         }
 
-        const page = parseInt(params.pageNo) || 1
+        const { pageNo } = (await params)
         const limit = 10
-        const skip = (page - 1) * limit
+        const skip = (Number(pageNo) - 1) * limit
 
         const posts = await Post.find().skip(skip).limit(limit).lean()
         const totalPosts = await Post.countDocuments()
@@ -27,7 +27,7 @@ export async function GET(request: Request, { params }: Context) {
             data: {
                 posts,
                 totalPages: Math.ceil(totalPosts / limit),
-                currentPage: page,
+                currentPage: pageNo,
                 totalPosts
             }
         }, { status: 200 })

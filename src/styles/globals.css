@@ -172,7 +172,7 @@ table td {
 }
 
 .heroImg {
-    height: 100% !important;
+    position: static !important;
 }
 
 .swiper-pagination-bullet {

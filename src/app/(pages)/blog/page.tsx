@@ -26,7 +26,7 @@ const Blog = () => {
     return (
         <>
             <ShopLayout>
-                <BlogLayout page='archive' posts={posts} limit={10} />
+                <BlogLayout page='archive' posts={posts} limit={10} title='' content='' featuredImage='' />
             </ShopLayout>
         </>
     )

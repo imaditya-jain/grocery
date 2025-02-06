@@ -20,7 +20,7 @@ const Posts = () => {
     const [draftPosts, setDraftPosts] = useState<Post[]>([]);
 
     useEffect(() => {
-        dispatch(fetchPostsHandler({}));
+        dispatch(fetchPostsHandler('1'));
     }, [dispatch]);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const Posts = () => {
             if (error) {
                 toast.error(message);
             } else {
-                dispatch(fetchPostsHandler({}))
+                dispatch(fetchPostsHandler('1'))
             }
         }
         dispatch(clearState())
