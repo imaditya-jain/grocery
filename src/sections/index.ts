@@ -16,3 +16,4 @@ export { default as ProductManagerSec } from './products/product-manager.section
 
 // Home
 export { default as HomeBanner } from './home/banner'
+export { default as CategorySlider } from './home/category-slider.sections'

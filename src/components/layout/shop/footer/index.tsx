@@ -1,6 +1,6 @@
 import IconBox from '@/components/cards/icon-box.cards'
 import { Copyright, Send } from '@mui/icons-material'
-import { Container, Grid2 } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
 
@@ -17,20 +17,20 @@ const Footer = () => {
             <footer className='border-t-[1px]'>
                 <Container maxWidth="xl" className='!px-4'>
                     <div className='py-8 border-b-[2px]'>
-                        <Grid2 container justifyContent='center'>
-                            <Grid2 size={{ xs: 12, md: 11 }} container justifyContent={'center'}>
+                        <Grid container justifyContent='center'>
+                            <Grid size={{ xs: 12, md: 11 }} container justifyContent={'center'}>
                                 {
-                                    services && Array.isArray(services) && services.length > 0 && services.map(service => <Grid2 key={service.id} size={{ xs: 6, sm: 4, md: 2.4 }}>
+                                    services && Array.isArray(services) && services.length > 0 && services.map(service => <Grid key={service.id} size={{ xs: 6, sm: 4, md: 2.4 }}>
                                         <IconBox title={service.title} description={service.description} icon={service.icon} textAlign='center' iconAlign='center' />
-                                    </Grid2>)
+                                    </Grid>)
                                 }
-                            </Grid2>
-                        </Grid2>
+                            </Grid>
+                        </Grid>
                     </div>
                     <div className='py-8 border-b-[2px]'>
-                        <Grid2 container justifyContent='center'>
-                            <Grid2 size={{ xs: 12, md: 11 }} container spacing={2} justifyContent='center'>
-                                <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
+                        <Grid container justifyContent='center'>
+                            <Grid size={{ xs: 12, md: 11 }} container spacing={2} justifyContent='center'>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <div className='flex flex-col gap-6'>
                                         <div>
                                             <h4 className='font-[700] text-[20px]'>Contact Us</h4>
@@ -43,8 +43,8 @@ const Footer = () => {
                                             <p><Link href="tel:+919876543210" legacyBehavior><a className='link font-[400] text-[14] text-[#666]'>(+91) 9876-543-210</a></Link></p>
                                         </div>
                                     </div>
-                                </Grid2>
-                                <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <div className='flex flex-col gap-4'>
                                         <div>
                                             <h4 className='font-[700] text-[20px]'>Products</h4>
@@ -60,8 +60,8 @@ const Footer = () => {
                                             </ul>
                                         </div>
                                     </div>
-                                </Grid2>
-                                <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <div className='flex flex-col gap-4'>
                                         <div>
                                             <h4 className='font-[700] text-[20px]'>Our Company</h4>
@@ -77,8 +77,8 @@ const Footer = () => {
                                             </ul>
                                         </div>
                                     </div>
-                                </Grid2>
-                                <Grid2 size={{ xs: 12, sm: 6, md: 3 }}>
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <div className='flex flex-col gap-4'>
                                         <div>
                                             <h4 className='font-[700] text-[20px]'>Subscribe to newsletter</h4>
@@ -91,9 +91,9 @@ const Footer = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </Grid2>
-                            </Grid2>
-                        </Grid2>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </div>
                     <div className='py-2'>
                         <p className='text-center text-[12px]'><Copyright className='text-[12px]' /> {new Date().getFullYear()} | All Rights Reserved.</p>

@@ -13,6 +13,8 @@ const Document: React.FC<DocumentPropTypes> = ({ children }) => {
     useEffect(() => {
         if (pathname.startsWith('/blog')) {
             document.body.classList.add('post')
+        } else {
+            document.body.classList.remove('post')
         }
     }, [pathname])
     return (

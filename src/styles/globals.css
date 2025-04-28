@@ -173,6 +173,20 @@ table td {
 
 .heroImg {
     position: static !important;
+    overflow: hidden;
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+}
+
+.heroImg:hover {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
 }
 
 .swiper-pagination-bullet {
@@ -249,4 +263,8 @@ table td {
     -moz-border-radius: 0.5rem;
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
+}
+
+#category_slider .swiper-slide {
+    width: 300px !important;
 }

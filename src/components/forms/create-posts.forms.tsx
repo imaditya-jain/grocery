@@ -164,7 +164,7 @@ const CreatePostForm = ({ isEdit, post }: PostCreateFormProps) => {
                             type="submit"
                             className="w-full bg-[var(--color-primary)] p-3 text-white font-[600] rounded-md"
                         >
-                            {isEdit ? "Update" : "Register"}
+                            {isEdit ? "Update" : "Save"}
                         </button>
                     </div>
                 </form>

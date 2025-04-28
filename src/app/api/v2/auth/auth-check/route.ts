@@ -31,6 +31,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: "", success: true, data: { user, refreshToken, accessToken }, }, { status: 200 });
     } catch (error) {
         console.error("Error in auth check:", error);
-        return NextResponse.json({ message: "Invalid access token.", success: false }, { status: 401 });
+        return NextResponse.json({ message: "Invalid access token.", success: false }, { status: 500 });
     }
 }

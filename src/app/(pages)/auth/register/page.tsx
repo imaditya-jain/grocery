@@ -12,11 +12,17 @@ const Register = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { message, error } = useAppSelector((state) => state.auth)
+    const [show, setShow] = React.useState(false)
+
+    useEffect(() => {
+        if (typeof window !== undefined) {
+            setShow(true)
+        }
+    }, [])
 
     useEffect(() => {
         if (message) {
             if (error) {
-                toast.error(message)
                 dispatch(clearState())
             } else {
                 toast.success(message)
@@ -31,7 +37,7 @@ const Register = () => {
     return (
         <>
             <AuthLayout>
-                <div className='flex flex-col gap-6'>
+                {show && <div className='flex flex-col gap-6'>
                     <h2 className='text-[20px] md:text-[24px] font-[600] uppercase text-center'>Create New Account</h2>
                     <div>
                         <RegistrationForm page="/auth/register" isEdit={false} user={null} />
@@ -39,7 +45,7 @@ const Register = () => {
                     <div>
                         <p className='font-[500] text-center'>Already have an account? <Link href='/auth/login/' legacyBehavior><a className="hover:text-[var(--color-primary)]">Log in</a></Link></p>
                     </div>
-                </div>
+                </div>}
             </AuthLayout>
         </>
     )

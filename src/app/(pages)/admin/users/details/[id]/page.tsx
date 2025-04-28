@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation';
 import { AdminLayout, RegistrationForm } from '@/components'
-import { Container, Grid2 } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { fetchUser } from '@/lib/features/user.features';
 import { toast } from 'react-toastify';
@@ -41,8 +41,8 @@ const UserDetails = () => {
         <AdminLayout>
             <section>
                 <Container className='!p-0'>
-                    <Grid2 container>
-                        <Grid2 size={{ xs: 12, md: 6 }}>
+                    <Grid container>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             {
                                 user && Object.keys(user).length > 0 && !loading && !error ? <div className='flex flex-col gap-6 py-4'>
                                     <div>
@@ -52,8 +52,8 @@ const UserDetails = () => {
                                 </div> : <p>We are fetching data. Loading...</p>
                             }
 
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </Container>
             </section>
         </AdminLayout>

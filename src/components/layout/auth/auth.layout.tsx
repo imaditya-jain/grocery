@@ -1,15 +1,33 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useAppSelector } from '@/lib/hooks'
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     const [show, setShow] = useState(false)
+    const pathname = usePathname()
+    const { user, loading, error } = useAppSelector(state => state.auth)
+    const router = useRouter()
 
     useEffect(() => {
         if (typeof window !== undefined) {
             setShow(true)
         }
     }, [])
+
+    useEffect(() => {
+        if (pathname === "/auth/login/") {
+            console.log(user);
+            if (user && !loading && !error) {
+                if (user?.role === "admin") {
+                    router.push("/admin/dashboard")
+                } else {
+                    router.push("/")
+                }
+            }
+        }
+    }, [pathname, user, loading, error, router])
 
     return (
         <>

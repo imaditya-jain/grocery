@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { BlogLayout, ShopLayout } from '@/components'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { fetchPostsHandler } from '@/lib/features/post.features'
@@ -8,12 +9,19 @@ import { toast } from 'react-toastify'
 
 
 const Blog = () => {
+    const searchParams = useSearchParams();
     const dispatch = useAppDispatch()
-    const { posts, error, loading, message } = useAppSelector((state) => state.post)
+    const { posts, totalPages, currentPage, message, loading, error } = useAppSelector((state) => state.post);
 
     useEffect(() => {
-        dispatch(fetchPostsHandler('1'))
-    }, [dispatch])
+        const page = searchParams.get("page");
+
+        if (page) {
+            dispatch(fetchPostsHandler(page));
+        } else {
+            dispatch(fetchPostsHandler('1'));
+        }
+    }, [searchParams, dispatch])
 
     useEffect(() => {
         if (message && !loading) {
@@ -26,7 +34,7 @@ const Blog = () => {
     return (
         <>
             <ShopLayout>
-                <BlogLayout page='archive' posts={posts} limit={10} title='' content='' featuredImage='' />
+                <BlogLayout page='archive' posts={posts} limit={10} totalPages={totalPages} current_page={currentPage} title='' content='' featuredImage='' />
             </ShopLayout>
         </>
     )

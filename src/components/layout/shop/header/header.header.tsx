@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import CustomDrawer from '../../../drawers/custom.drawers';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Badge, Box, Grid2, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material"
+import { Badge, Box, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material"
 import { ShoppingCart, CompareOutlined, FavoriteOutlined, Menu, Logout, } from "@mui/icons-material";
 import { logoutHandler } from '@/lib/features/auth.features';
 import { CustomPopover } from '@/components/';
@@ -52,14 +52,14 @@ const Header = () => {
     return (
         <>
             <div className="py-3 border-gray-300 border-b-[1px]">
-                <Grid2 container justifyContent="center">
-                    <Grid2 container spacing={2} size={11} alignItems="center">
-                        <Grid2 size={{ xs: 1.5, md: 0 }} className="block md:hidden">
+                <Grid container justifyContent="center">
+                    <Grid container spacing={2} size={11} alignItems="center">
+                        <Grid size={{ xs: 1.5, md: 0 }} className="block md:hidden">
                             <IconButton onClick={() => setOpenMenuDrawer(true)}>
                                 <Menu />
                             </IconButton>
-                        </Grid2>
-                        <Grid2 size={{ xs: 5.5, md: 3 }} order={1}>
+                        </Grid>
+                        <Grid size={{ xs: 5.5, md: 3 }} order={1}>
                             <Link href="/">
                                 <Image
                                     src="/assets/images/logo.png"
@@ -70,11 +70,11 @@ const Header = () => {
                                     className="max-w-full h-auto"
                                 />
                             </Link>
-                        </Grid2>
-                        <Grid2 size={{ xs: 12, md: 5 }} order={{ xs: 3, md: 2 }}>
+                        </Grid>
+                        <Grid size={{ xs: 12, md: 5 }} order={{ xs: 3, md: 2 }}>
                             <Search />
-                        </Grid2>
-                        <Grid2 size={{ xs: 5, md: 4 }} order={{ xs: 2, md: 3 }}>
+                        </Grid>
+                        <Grid size={{ xs: 5, md: 4 }} order={{ xs: 2, md: 3 }}>
                             <ul className="flex items-center justify-end gap-1 sm:gap-3">
                                 <li className="hidden sm:block">
                                     {
@@ -137,9 +137,9 @@ const Header = () => {
                                     </Tooltip>
                                 </li>
                             </ul>
-                        </Grid2>
-                    </Grid2>
-                </Grid2>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </div>
             <CustomDrawer open={openMenuDrawer} toggleDrawer={toggleMenuDrawer}>Navigation</CustomDrawer>
         </>

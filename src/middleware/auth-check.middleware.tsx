@@ -1,62 +1,56 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { authCheckHandler, refreshTokenHandler, } from "@/lib/features/auth.features";
+import { authCheckHandler, refreshTokenHandler } from "@/lib/features/auth.features";
 
-const AuthCheckMiddleware = ({ children, }: { children: React.ReactNode; }) => {
+const AuthCheckMiddleware = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const pathname = usePathname();
     const dispatch = useAppDispatch();
-    const { user, isAuthenticated, error, accessToken, refreshToken, loading, } = useAppSelector((state) => state.auth);
+    const { user, isAuthenticated, error, accessToken, refreshToken, loading } = useAppSelector((state) => state.auth);
 
-    const hasCheckedAuth = React.useRef(false);
+    const hasCheckedAuth = useRef(false);
+    const hasRefreshedToken = useRef(false);
 
-    useEffect(() => {
-        if (pathname === "/" || pathname.startsWith('/blogs') || pathname === '/auth/register') {
-            dispatch(authCheckHandler({}))
-        }
-    }, [dispatch, pathname])
-
-    useEffect(() => {
-        if (!hasCheckedAuth.current && !loading) {
-            hasCheckedAuth.current = true
-            dispatch(authCheckHandler({}))
-        }
-    }, [dispatch, loading])
+    const publicRoutes = [
+        "/",
+        "/auth/register/",
+        "/auth/verify-otp/",
+        "/auth/forgot-password/",
+    ];
+    const isBlogPage = pathname.startsWith("/blog");
+    const isPublicRoute = publicRoutes.includes(pathname) || isBlogPage;
 
     useEffect(() => {
-        if (!hasCheckedAuth.current && refreshToken && !loading && !accessToken) {
+        if (!isPublicRoute && !hasCheckedAuth.current && !loading) {
             hasCheckedAuth.current = true;
-            dispatch(refreshTokenHandler({}))
+            dispatch(authCheckHandler({}));
         }
-    }, [accessToken, refreshToken, loading, dispatch]);
+    }, [pathname, dispatch, isPublicRoute, loading]);
+
+    useEffect(() => {
+        if (!isPublicRoute && !hasRefreshedToken.current && refreshToken && !loading && !accessToken) {
+            hasRefreshedToken.current = true;
+            dispatch(refreshTokenHandler({}));
+        }
+    }, [accessToken, refreshToken, loading, dispatch, isPublicRoute]);
 
     useEffect(() => {
         if (loading) return;
 
-        if (pathname === "/" || pathname.startsWith('/blog') || pathname === '/auth/register') return;
+        if (isPublicRoute) return;
 
-        if (!loading && isAuthenticated) {
-            router.push(pathname)
-        }
-
-        if (!accessToken || !refreshToken || !user || !isAuthenticated || error) {
-            if (pathname !== "/auth/login/" && pathname !== "/auth/verify-otp/" && pathname !== "/auth/register/") {
-                router.replace("/auth/login");
-            }
+        if (!isAuthenticated || !accessToken || !refreshToken || error) {
+            router.replace("/auth/login");
             return;
         }
 
-        if (isAuthenticated && (pathname === "/auth/login/" || pathname === "/auth/verify-otp/" || pathname === "/auth/register/")) {
-            if (user?.role === "admin") {
-                router.replace("/admin/dashboard/");
-            } else {
-                router.replace("/");
-            }
+        if (isAuthenticated && publicRoutes.includes(pathname)) {
+            router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
         }
-    }, [accessToken, refreshToken, user, isAuthenticated, error, pathname, router, loading,]);
+    }, [accessToken, refreshToken, user, isAuthenticated, error, pathname, router, loading, isPublicRoute]);
 
     return <>{children}</>;
 };

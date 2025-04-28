@@ -5,6 +5,9 @@ import { createPostHandler, deletePostHandler, fetchPostHandler, fetchPostsHandl
 interface PostState {
     post: Post | null;
     posts: Post[];
+    totalPosts: number,
+    totalPages: number,
+    currentPage: number;
     loading: boolean;
     error: boolean;
     message: string;
@@ -17,12 +20,18 @@ interface ApiResponse<T = unknown> {
 }
 
 interface PostData {
-    post: Post;
+    post?: Post;
     posts: Post[];
+    totalPages?: number;
+    totalPosts?: number;
+    currentPage?: number;
 }
 
 const initialState: PostState = {
     post: null,
+    totalPosts: 0,
+    totalPages: 0,
+    currentPage: 1,
     posts: [],
     loading: false,
     error: false,
@@ -76,10 +85,16 @@ const postSlice = createSlice({
             .addCase(fetchPostsHandler.fulfilled, (state, action) => {
                 postSlice.caseReducers.setFulfilled(state, action);
                 state.posts = action.payload.data?.posts || [];
+                state.totalPages = action.payload.data?.totalPages || 0;
+                state.totalPosts = action.payload.data?.totalPosts || 0;
+                state.currentPage = action.payload.data?.currentPage || 1;
             })
             .addCase(fetchPostsHandler.rejected, (state, action) => {
                 postSlice.caseReducers.setRejected(state, action);
                 state.posts = [];
+                state.totalPages = 0;
+                state.totalPosts = 0;
+                state.currentPage = 1;
             })
 
             .addCase(fetchPostHandler.pending, (state) => {

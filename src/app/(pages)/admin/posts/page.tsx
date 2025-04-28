@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AdminLayout } from "@/components";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { deletePostHandler, fetchPostsHandler } from "@/lib/features/post.features";
@@ -13,22 +13,31 @@ import { clearState } from "@/lib/slices/posts.slice";
 
 const Posts = () => {
     const dispatch = useAppDispatch();
+    const searchParams = useSearchParams();
     const router = useRouter();
-    const { posts, message, loading, error } = useAppSelector((state) => state.post);
+    const { posts, totalPages, totalPosts, currentPage, message, loading, error } = useAppSelector((state) => state.post);
     const [selectedTab, setSelectedTab] = useState<number>(1);
     const [publishedPosts, setPublishedPosts] = useState<Post[]>([]);
     const [draftPosts, setDraftPosts] = useState<Post[]>([]);
 
     useEffect(() => {
-        dispatch(fetchPostsHandler('1'));
-    }, [dispatch]);
+        const page = searchParams.get("page");
+
+        if (page) {
+            dispatch(fetchPostsHandler(page));
+        } else {
+            dispatch(fetchPostsHandler('1'));
+        }
+    }, [searchParams, dispatch])
+
 
     useEffect(() => {
-        if (message && !loading) {
+        if (message !== "" && message !== undefined && message !== null && !loading) {
             if (error) {
                 toast.error(message);
-            } else {
-                dispatch(fetchPostsHandler('1'))
+            } else if (!error) {
+                toast.success(message)
+                dispatch(fetchPostsHandler('1'));
             }
         }
         dispatch(clearState())
@@ -54,6 +63,8 @@ const Posts = () => {
         router.push(`/admin/posts/details/${slug}`)
     }
 
+    console.log(totalPages, totalPosts);
+
     return (
         <AdminLayout>
             <section>
@@ -72,7 +83,7 @@ const Posts = () => {
                     </div>
                     <div>
                         {
-                            selectedTab === 1 ? <PublishedPostsSec posts={publishedPosts} handleDelete={handleDelete} handleEdit={handleEdit} /> : <DraftPostsSec posts={draftPosts} handleDelete={handleDelete} handleEdit={handleEdit} />
+                            selectedTab === 1 ? <PublishedPostsSec posts={publishedPosts} handleDelete={handleDelete} handleEdit={handleEdit} totalPages={totalPages} currentPage={currentPage} /> : <DraftPostsSec posts={draftPosts} handleDelete={handleDelete} handleEdit={handleEdit} />
                         }
                     </div>
                 </div>

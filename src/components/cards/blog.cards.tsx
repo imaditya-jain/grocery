@@ -17,7 +17,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ featuredImage, title, excerpt, slug
     return (
         <>
             <Card component={Paper} className='h-full cursor-pointer !shadow-none post-card' onClick={() => router.push(`/blog/${slug}`)}>
-                <CardMedia image={featuredImage} component="img" alt={title} sx={{ height: 255 }} />
+                <CardMedia image={featuredImage} component="img" alt={title} />
                 <CardContent className='flex flex-col gap-2 !p-0'>
                     <h5 className='font-[700] text-[18px]'>{title}</h5>
                     <p>{excerpt}</p>

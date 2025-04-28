@@ -38,3 +38,9 @@ export { default as InputFields } from './fields/input.fields.components'
 // cards
 export { default as BlogCard } from './cards/blog.cards'
 export { default as IconBox } from './cards/icon-box.cards'
+
+// slider
+export { default as Slider } from './slider/custom.slider'
+
+// pagination
+export { default as Pagination } from './pagination'

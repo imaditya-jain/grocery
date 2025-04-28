@@ -9,6 +9,9 @@ interface Response {
     data: {
         post: Post,
         posts: Post[]
+        totalPages?: number;
+        totalPosts?: number;
+        currentPage?: number;
     }
 }
 

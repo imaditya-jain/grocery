@@ -2,15 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Post from '@/types/post.types';
-import { CustomTable } from '@/components';
+import { CustomTable, Pagination } from '@/components';
 
 interface PublishedPostsSecProps {
     posts: Post[];
+    totalPages?: number,
+    currentPage?: number,
     handleDelete: (id: string) => void;
     handleEdit: (slug: string) => void;
 }
 
-const PublishedPostsSec: React.FC<PublishedPostsSecProps> = ({ posts, handleDelete, handleEdit }) => {
+const PublishedPostsSec: React.FC<PublishedPostsSecProps> = ({ posts, totalPages, currentPage, handleDelete, handleEdit }) => {
     const tableHead = ['Sr', 'Title'];
     const [tableBody, setTableBody] = useState<{ _id: string; id: string; Sr: number; Title: string, slug: string }[]>([]);
 
@@ -39,6 +41,7 @@ const PublishedPostsSec: React.FC<PublishedPostsSecProps> = ({ posts, handleDele
                     handleEdit={handleEdit}
                 />
             </div>
+            <Pagination totalPages={Number(totalPages) || 0} currentPage={currentPage || 1} path='/admin/posts?page=' />
         </section>
     );
 };

@@ -3,7 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
-    domains: ['firebasestorage.googleapis.com', 'rankfastblog.courseo.in'],
+    remotePatterns:  [{
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rankfastblog.courseo.in',
+      }],
   },
 };
 

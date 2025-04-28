@@ -16,22 +16,22 @@ const sendOTP = async (id: string) => {
 
         const OTP = generateOTP()
 
-        console.log(OTP)
-
         const mailOptions = {
             from: process.env.USER_EMAIL,
-            to: user?.email,
+            to: user.email,
             subject: `Verify your email`,
             html: `<div>
-            <p>Enter <b>${OTP}</b> in the app to verify your email address and complete sign in.</p>
-            </div>`
-        }
+        <p>Enter <b>${OTP}</b> in the app to verify your email address and complete sign in.</p>
+    </div>`,
+            priority: "high"
+        } as const;
+
 
         const hashedOTP = await bcrypt.hash(OTP, 10)
         user.otp = hashedOTP
         await user.save({ validateModifiedOnly: true })
 
-        transporter.sendMail(mailOptions)
+        await transporter.sendMail(mailOptions)
         return { status: 200, message: "OTP is sent on yout mail.", success: true, data: { OTP } }
 
     } catch (error) {

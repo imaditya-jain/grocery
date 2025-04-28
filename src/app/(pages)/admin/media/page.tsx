@@ -8,7 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import storage from "@/config/firebase.config"
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage"
-import { Close, CopyAll } from '@mui/icons-material'
+import Close from '@mui/icons-material/Close'
+import CopyAll from '@mui/icons-material/CopyAll'
 import { IconButton } from '@mui/material'
 import copy from 'copy-to-clipboard';
 import { toast } from 'react-toastify'
