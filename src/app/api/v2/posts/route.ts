@@ -1,23 +1,26 @@
-import { connectToDatabase } from "@/config"
-import Post from "@/models/posts.model"
-import { NextResponse } from "next/server"
-
-export async function GET(request: Request) {
+import { connectToDatabase } from "@/config";
+import Post from "@/models/posts.model";
+import { NextResponse } from "next/server";
+export async function POST(request: Request) {
     try {
-        connectToDatabase()
+        await connectToDatabase();
 
-        if (request.method !== "GET") return NextResponse.json({ message: "Method is not allowed.", success: false, data: {} }, { status: 405 })
+        console.log(request.method, "request method");
 
-        const posts = await Post.find()
+        if (request.method !== "POST") { return NextResponse.json({ message: "Method is not allowed.", success: false, data: {} }, { status: 405 }); }
 
-        return NextResponse.json({ message: "", success: true, data: { posts } }, { status: 200 })
+        const { pageNo } = await request.json();
+        const limit = 10;
+        const skip = (Number(pageNo) - 1) * limit;
 
+        const [posts, totalPosts] = await Promise.all([Post.find().skip(skip).limit(limit).lean(), Post.countDocuments(),]);
+
+        return NextResponse.json({ message: "", success: true, data: { posts, totalPages: Math.ceil(totalPosts / limit), currentPage: pageNo, totalPosts, }, }, { status: 200 }
+        );
     } catch (error) {
-        if (error instanceof Error) {
-            console.log('Error while fetching posts: ', error.message)
-        } else {
-            console.log('An unknown error occurred.')
-        }
-        return NextResponse.json({ message: "Internal server error.", success: false, data: {} }, { status: 500 })
+        console.error("Error while fetching posts:", error instanceof Error ? error.message : "Unknown error");
+
+        return NextResponse.json(
+            { message: "Internal server error.", success: false, data: {}, }, { status: 500 });
     }
 }

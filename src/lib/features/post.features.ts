@@ -47,7 +47,7 @@ export const createPostHandler = createAsyncThunk<Response, Record<string, unkno
 
 export const fetchPostsHandler = createAsyncThunk<Response, string, { rejectValue: Error }>('/posts/fetch-posts', async (page, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`/api/v2/posts/page/${page}`)
+        const response = await axios.post(`/api/v2/posts/`, { pageNo: page })
         return response.data
     } catch (error) {
         if (error instanceof AxiosError) {
