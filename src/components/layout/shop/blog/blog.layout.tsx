@@ -12,8 +12,8 @@ interface BlogLayoutProps {
     page: string | undefined;
     posts: Post[] | undefined;
     limit: number | undefined;
-    totalPages: number;
-    current_page: number;
+    totalPages?: number;
+    current_page?: number;
 }
 
 const BlogLayout: React.FC<BlogLayoutProps> = ({ content, title, featuredImage, page, posts, limit, totalPages, current_page, }) => {
@@ -32,7 +32,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ content, title, featuredImage, 
                                         <SingleBlogHero title={title} featuredImage={featuredImage} />
                                         <div className='post-content' dangerouslySetInnerHTML={{ __html: content }} />
                                     </> : posts && Array.isArray(posts) && posts.length > 0 && limit && <>
-                                        <PostArchiveSection posts={posts} limit={limit} totalPages={totalPages} current_page={current_page} />
+                                        <PostArchiveSection posts={posts} limit={limit} totalPages={totalPages || 0} current_page={current_page || 0} />
                                     </>
                                 }
                             </Grid>

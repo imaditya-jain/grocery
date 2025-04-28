@@ -127,8 +127,6 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
                 }))
                 : [];
 
-            console.log(mappedVariants)
-
             reset({
                 ...product,
                 variants: mappedVariants,
@@ -194,8 +192,6 @@ const ProductForm = ({ product, isEdit }: ProductFormProps) => {
             }
         }
     }, [stateError, message, loading, router]);
-
-    console.log(product)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

@@ -10,6 +10,8 @@ export { default as PublishedPostsSec } from './posts/published-posts.sections'
 export { default as DraftPostsSec } from './posts/draft-posts.sections'
 export { default as SingleBlogHero } from './posts/single-blog-hero.section'
 export { default as PostArchiveSection } from './posts/posts-archive.section'
+export { default as PostContent } from './posts/post-content.sections'
+export { default as ShopBLOGSection } from './posts/shop-blog.sections'
 
 // products
 export { default as ProductManagerSec } from './products/product-manager.sections'

@@ -21,8 +21,6 @@ export async function POST(request: Request) {
 
         if (!otpResponse) return NextResponse.json({ message: "Something went wrong.", success: false, data: {} }, { status: 500 })
 
-        console.log(otpResponse)
-
         const { success, status, message, data } = otpResponse
 
         return NextResponse.json({ message, success, data }, { status })

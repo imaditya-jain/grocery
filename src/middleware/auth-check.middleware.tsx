@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { authCheckHandler, refreshTokenHandler } from "@/lib/features/auth.features";
@@ -14,12 +14,12 @@ const AuthCheckMiddleware = ({ children }: { children: React.ReactNode }) => {
     const hasCheckedAuth = useRef(false);
     const hasRefreshedToken = useRef(false);
 
-    const publicRoutes = [
+    const publicRoutes = useMemo(() => [
         "/",
         "/auth/register/",
         "/auth/verify-otp/",
         "/auth/forgot-password/",
-    ];
+    ], [])
     const isBlogPage = pathname.startsWith("/blog");
     const isPublicRoute = publicRoutes.includes(pathname) || isBlogPage;
 
@@ -50,7 +50,7 @@ const AuthCheckMiddleware = ({ children }: { children: React.ReactNode }) => {
         if (isAuthenticated && publicRoutes.includes(pathname)) {
             router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
         }
-    }, [accessToken, refreshToken, user, isAuthenticated, error, pathname, router, loading, isPublicRoute]);
+    }, [accessToken, refreshToken, user, isAuthenticated, error, pathname, router, loading, isPublicRoute, publicRoutes]);
 
     return <>{children}</>;
 };

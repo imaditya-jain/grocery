@@ -18,7 +18,6 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
 
     useEffect(() => {
         if (pathname === "/auth/login/") {
-            console.log(user);
             if (user && !loading && !error) {
                 if (user?.role === "admin") {
                     router.push("/admin/dashboard")

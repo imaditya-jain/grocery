@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "./header"
-import { Container, Grid } from "@mui/material"
+import { Grid } from "@mui/material"
 import Sidebar from "./sidebar"
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         <>
             <Header />
             <main className="mt-12 bg-[#f7f7f7]">
-                <Container maxWidth={"xxl"} className="!p-4 md:!p-0">
+                <div className="!p-4 md:!p-0">
                     <Grid container columnSpacing={2}>
                         <Grid size={{ xs: 0, md: 2 }} className="relative hidden md:block">
                             <Sidebar />
@@ -21,7 +21,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                             </div>
                         </Grid>
                     </Grid>
-                </Container>
+                </div>
             </main>
         </>
     )
