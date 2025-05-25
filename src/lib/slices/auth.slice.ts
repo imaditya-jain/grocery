@@ -59,6 +59,15 @@ const authSlice = createSlice({
             state.message = ''
             state.error = false
             state.loading = false
+        },
+        clearAuthState: (state) => {
+            state.user = null
+            state.isAuthenticated = false
+            state.accessToken = null
+            state.refreshToken = null
+            state.error = false
+            state.loading = false
+            state.message = ''
         }
     },
     extraReducers: (builder) => {
@@ -67,7 +76,10 @@ const authSlice = createSlice({
             .addCase(registerHandler.rejected, (state, action) => { authSlice.caseReducers.setRejected(state, action) })
 
             .addCase(loginHandler.pending, (state) => { authSlice.caseReducers.setPending(state) })
-            .addCase(loginHandler.fulfilled, (state, action) => { authSlice.caseReducers.setFulfilled(state, action) })
+            .addCase(loginHandler.fulfilled, (state, action) => {
+                authSlice.caseReducers.setFulfilled(state, action)
+                // Login only sends OTP, doesn't authenticate yet
+            })
             .addCase(loginHandler.rejected, (state, action) => { authSlice.caseReducers.setRejected(state, action) })
 
             .addCase(verifyOTPHandler.pending, (state) => { authSlice.caseReducers.setPending(state) })
@@ -138,5 +150,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { clearState } = authSlice.actions
+export const { clearState, clearAuthState } = authSlice.actions
 export default authSlice.reducer

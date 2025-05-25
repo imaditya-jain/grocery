@@ -30,8 +30,20 @@ export async function POST(request: Request) {
 
         const response = NextResponse.json({ message: 'Login successfully.', success: true, data: { user: loggedUser, accessToken, refreshToken } }, { status: 200 })
 
-        response.cookies.set('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'strict', path: '/' })
-        response.cookies.set('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'strict', path: '/' })
+        response.cookies.set('accessToken', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            path: '/',
+            maxAge: 24 * 60 * 60 // 1 day
+        })
+        response.cookies.set('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60 // 7 days
+        })
 
         return response
 

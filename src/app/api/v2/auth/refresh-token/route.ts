@@ -6,23 +6,16 @@ import { connectToDatabase } from "@/config";
 
 export async function POST(request: Request) {
     try {
-        connectToDatabase();
-
-        if (request.method !== "POST") {
-            return NextResponse.json(
-                { message: "Method is not allowed.", success: false, data: {} },
-                { status: 405 }
-            );
-        }
+        await connectToDatabase();
 
         const cookies = request.headers.get("cookie");
-        const token = cookies
+        const refreshToken = cookies
             ? cookies.split("; ").find((cookie) => cookie.startsWith("refreshToken="))?.split("=")[1]
             : null;
 
-        if (!token) {
+        if (!refreshToken) {
             return NextResponse.json(
-                { message: "Missing refresh token. Please login again.", success: false, data: {} },
+                { message: "Refresh token is missing. Please login again.", success: false, data: {} },
                 { status: 401 }
             );
         }
@@ -33,15 +26,11 @@ export async function POST(request: Request) {
 
         let decodedToken: JwtPayload & { _id: string };
         try {
-            decodedToken = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET) as JwtPayload & { _id: string };
+            decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET) as JwtPayload & { _id: string };
         } catch (error) {
-            if (error instanceof Error) {
-                console.log('Error while decoding token:', error.message)
-            } else {
-                console.log('Unknown error occurred.')
-            }
+            console.log('Error while decoding refresh token:', error instanceof Error ? error.message : 'Unknown error');
             return NextResponse.json(
-                { message: "Invalid refresh token. Please sign in again.", success: false, data: {} },
+                { message: "Invalid refresh token. Please login again.", success: false, data: {} },
                 { status: 401 }
             );
         }
@@ -49,24 +38,23 @@ export async function POST(request: Request) {
         const user = await User.findById(decodedToken._id).select("-otp -password");
         if (!user) {
             return NextResponse.json(
-                { message: "User not found. Please sign in again.", success: false, data: {} },
+                { message: "User not found. Please login again.", success: false, data: {} },
                 { status: 401 }
             );
         }
 
-        if (user.refreshToken !== token) {
+        // Verify the refresh token matches the one stored in database
+        if (user.refreshToken !== refreshToken) {
             return NextResponse.json(
-                { message: "Token mismatch. Please sign in again.", success: false, data: {} },
+                { message: "Invalid refresh token. Please login again.", success: false, data: {} },
                 { status: 401 }
             );
         }
 
-        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id.toString());
+        // Generate new tokens
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await generateAccessAndRefreshToken(user._id.toString());
 
-        user.refreshToken = refreshToken;
-        await user.save();
-
-        // Exclude sensitive fields and return user data
+        // Get user data without sensitive fields
         const loggedUser = await User.findById(user._id)
             .select("-otp -password -refreshToken")
             .lean();
@@ -79,27 +67,34 @@ export async function POST(request: Request) {
         }
 
         const response = NextResponse.json(
-            { message: "", success: true, data: { user: loggedUser, accessToken, refreshToken } },
+            {
+                message: "Tokens refreshed successfully.",
+                success: true,
+                data: { user: loggedUser, accessToken: newAccessToken, refreshToken: newRefreshToken }
+            },
             { status: 200 }
         );
 
-        response.cookies.set("accessToken", accessToken, {
+        // Set new cookies
+        response.cookies.set("accessToken", newAccessToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             path: "/",
             sameSite: "strict",
+            maxAge: 24 * 60 * 60 // 1 day
         });
-        response.cookies.set("refreshToken", refreshToken, {
+
+        response.cookies.set("refreshToken", newRefreshToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             path: "/",
             sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 // 7 days
         });
 
         return response;
     } catch (error) {
         console.error("Error while refreshing tokens:", error instanceof Error ? error.message : "Unknown error");
-
         return NextResponse.json(
             { message: "Internal server error.", success: false, data: {} },
             { status: 500 }

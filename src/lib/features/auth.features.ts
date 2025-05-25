@@ -149,7 +149,7 @@ export const authCheckHandler = createAsyncThunk<Response, Record<string, unknow
     "/auth/auth-check",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.post<Response>("/api/v2/auth/auth-check");
+            const response = await axios.post<Response>("/api/v2/auth/auth-check", {}, { withCredentials: true });
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -172,9 +172,9 @@ export const authCheckHandler = createAsyncThunk<Response, Record<string, unknow
 
 export const refreshTokenHandler = createAsyncThunk<Response, Record<string, unknown>, { rejectValue: Error }>(
     "/auth/refresh-token",
-    async (str, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.post<Response>("/api/v2/auth/refresh-token", { withCredentials: true });
+            const response = await axios.post<Response>("/api/v2/auth/refresh-token", {}, { withCredentials: true });
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -197,9 +197,9 @@ export const refreshTokenHandler = createAsyncThunk<Response, Record<string, unk
 
 export const logoutHandler = createAsyncThunk<Response, Record<string, unknown>, { rejectValue: Error }>(
     "/auth/logout",
-    async (str, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.post<Response>("/api/v2/auth/logout", { withCredentials: true });
+            const response = await axios.post<Response>("/api/v2/auth/logout", {}, { withCredentials: true });
             return response.data;
         } catch (error) {
             if (error instanceof AxiosError) {
