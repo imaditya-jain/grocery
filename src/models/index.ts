@@ -1,0 +1,5 @@
+export { default as User } from './user.model'
+export { default as Post } from './posts.model'
+export { default as Product } from './products.model'
+export { default as Collection } from './collections.model'
+export { default as Tag } from './tags.model'
