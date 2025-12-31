@@ -28,18 +28,15 @@ type MediaFormValues = {
   image: FileList;
 };
 
-const Media = () => {
-  const [show, setShow] = useState(false);
-  const [images, setImages] = useState<string[]>([]);
-
-  const schema = yup.object({
+const schema: yup.ObjectSchema<MediaFormValues> = yup
+  .object({
     image: yup
       .mixed<FileList>()
+      .required("An image is required")
       .test(
         "fileRequired",
         "An image is required",
-        (value) =>
-          value instanceof FileList && value.length > 0
+        (value) => value instanceof FileList && value.length > 0
       )
       .test(
         "fileType",
@@ -50,12 +47,17 @@ const Media = () => {
       )
       .test(
         "fileSize",
-        "File size must be less than 2MB",
+        "File size must be less than 10MB",
         (value) =>
           value instanceof FileList &&
           value[0]?.size <= 10 * 1024 * 1024
       ),
-  });
+  })
+  .required();
+
+const Media = () => {
+  const [show, setShow] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
 
   const fields = [
     {
@@ -88,9 +90,7 @@ const Media = () => {
     setImages(imageUrls);
   };
 
-  const handleUpload: SubmitHandler<MediaFormValues> = async (
-    data
-  ) => {
+  const handleUpload: SubmitHandler<MediaFormValues> = async (data) => {
     const file = data.image[0];
     const storageRef = ref(
       storage,
@@ -133,32 +133,28 @@ const Media = () => {
 
           {show && (
             <div className="border-[#c5c5c5] border-b-[1px] pb-4">
-              <div className="w-[100%] md:w-[50%]">
+              <div className="w-full md:w-1/2">
                 <form onSubmit={handleSubmit(handleUpload)}>
-                  <div>
-                    {fields.map((field) => (
-                      <InputFields
-                        key={field.id}
-                        label={field.label}
-                        name={field.name}
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        errors={errors as FieldErrors<FieldValues>}
-                        register={register}
-                        multline={field.multiline}
-                        rows={field.rows}
-                      />
-                    ))}
-                  </div>
+                  {fields.map((field) => (
+                    <InputFields
+                      key={field.id}
+                      label={field.label}
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      errors={errors as FieldErrors<FieldValues>}
+                      register={register}
+                      multline={field.multiline}
+                      rows={field.rows}
+                    />
+                  ))}
 
-                  <div>
-                    <button
-                      type="submit"
-                      className="w-full bg-[var(--color-primary)] p-3 text-white font-[600] rounded-md"
-                    >
-                      Upload
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-[var(--color-primary)] p-3 text-white font-[600] rounded-md"
+                  >
+                    Upload
+                  </button>
                 </form>
               </div>
             </div>
